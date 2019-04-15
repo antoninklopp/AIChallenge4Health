@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 import csv
 from src.image import Image
+from PIL import Image as PILmage
+from skimage import io
 
 def data_csv():
     list_images = []
@@ -15,7 +17,14 @@ def data_csv():
 
     return list_images
 
+def data_tiff():
+    train_data = io.imread("DataChallenge/images_training.tiff")
+    return np.array(train_data)
+
+def export_data_tiff_to_show():
+    train_data = data_tiff()
+    for i, image in enumerate(train_data):
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i) + ".tiff", image)
+
 if __name__ == "__main__":
-    train_data = cv2.imread("DataChallenge/images_training.tiff", -1)
-    print(train_data.shape)
-    print(len(data_csv()))
+    export_data_tiff_to_show()
