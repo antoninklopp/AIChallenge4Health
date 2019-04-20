@@ -1,0 +1,9 @@
+.pytest_cache/
+*.pyc 
+src/__pycache__/
+*.csv#
+DataChallenge/train_individuals/*
+.vscode/
+output/
+.eggs/
+*.egg-info/
