@@ -6,4 +6,4 @@ install:
   - pip install -r requirements.txt
 #  - pip install .
 # command to run tests
-script: echo "test"
+script: export PYTHONPATH=.; python setup.py test
