@@ -10,7 +10,9 @@ class BasicCNN(AbstractModel):
         features, labels = get_dataset(100000)
         x_train, y_train = np.array(features), np.array(labels)
 
-        x_train, x_test = x_train / 255.0, x_test / 255.0
+        x_train = x_train / 255.0
+
+        print(x_train)
 
         model = tf.keras.models.Sequential([
             tf.keras.layers.Flatten(input_shape=(24, 24)),
