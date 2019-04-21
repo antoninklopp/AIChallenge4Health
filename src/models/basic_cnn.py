@@ -5,6 +5,9 @@ import numpy as np
 from src.answers import AbstractModel
 
 class BasicCNN(AbstractModel):
+    """
+    Simple basic CNN to find the number of points in the image. 
+    """
 
     def get_model(self):
         features, labels = get_dataset(100000)
