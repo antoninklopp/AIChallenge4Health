@@ -18,6 +18,7 @@ from src.extract_points import SIZE_SPOT, RESIZE_FACTOR
 from src.models.basic_cnn import BasicCNN
 import math
 from src.import_data import get_dataset_test
+import os
 
 MODEL_PATH = "models/image_cnn.h5"
 
@@ -32,7 +33,7 @@ class ImageCNN(AbstractModel):
     def get_model(self):
         if os.path.isfile(MODEL_PATH):
             new_model = tf.keras.models.load_model(MODEL_PATH)
-            print("Loaded Basic CNN model")
+            print("Loaded Image CNN model")
             return new_model
 
         dataset = list(get_unique_spots_labeled(10000))
@@ -72,8 +73,10 @@ class ImageCNN(AbstractModel):
 
         for image in data_test:
             label = model_classification.predict(np.array([image]))
+            classification = np.argmax(label[0])
+            print(classification)
             # If 0 spots, we return that there is 0 spots
-            if label[0] == 0:
+            if classification == 0:
                 answers.append([0, 0, 0, 0, 0])
                 continue
             image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
@@ -83,14 +86,17 @@ class ImageCNN(AbstractModel):
                     sub_image = image[i - SIZE_SPOT:i+SIZE_SPOT, j-SIZE_SPOT:j+SIZE_SPOT]
                     sub_image = np.array(sub_image) / 255.0
                     sub_image = sub_image.reshape((sub_image.shape[0], sub_image.shape[1], 1))
-                    answer = model.predict([sub_image])
+                    answer = model.predict(np.array([sub_image]))
                     if answer[0][1] > 0.9:
-                        max_probabilities.append(i, j, answer[0][1])
+                        max_probabilities.append((i, j, answer[0][1]))
 
             # If only one spot, we take the max probability point
-            if label[0] == 1:
+            if classification == 1:
                 max_prob = max(max_probabilities, key=lambda x : x[2])
-                answers.append([1, max_prob[0]/float(RESIZE_FACTOR), max_prob[1]/float(RESIZE_FACTOR), 0, 0])
+                # x and y are reverse
+                answer = [1, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), 0, 0]
+                answers.append(answer)
+                print(answer)
                 continue
 
             # If two spots
@@ -104,8 +110,10 @@ class ImageCNN(AbstractModel):
 
             if max_prob2 is None:
                 max_prob2 = (0, 0)
-                answers.append(2, max_prob[0]/float(RESIZE_FACTOR), max_prob[1]/float(RESIZE_FACTOR), \
-                    max_prob2[0]/float(RESIZE_FACTOR), max_prob2[1]/float(RESIZE_FACTOR))
+            answer = [2, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), \
+                max_prob2[1]/float(RESIZE_FACTOR), max_prob2[0]/float(RESIZE_FACTOR)]
+            answers.append(answer)
+            print(answer)
 
 
         return answers
