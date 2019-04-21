@@ -31,7 +31,7 @@ def export_data_tiff_to_show():
     for i, image in enumerate(train_data):
         cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".tiff", image)
 
-def get_dataset(max_images):
+def get_dataset_classification_only(max_images):
     """
     Run first export_data_tiff_to_show before using this method
     Used to save RAM
@@ -45,7 +45,23 @@ def get_dataset(max_images):
             break
 
     labels = [i.classification for i in get_csv_training()[:max_images]]
-    print(labels[:10])
+
+    return features, labels
+
+def get_dataset(max_images):
+    """
+    Run first export_data_tiff_to_show before using this method
+    Used to save RAM
+    """
+    features = []
+    labels = []
+    for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.tiff"))):
+        if i < max_images:
+            features.append(cv2.imread(t_file, 0))
+        else:
+            break
+
+    labels = [i for i in get_csv_training()[:max_images]]
 
     return features, labels
 

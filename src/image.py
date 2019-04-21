@@ -18,3 +18,6 @@ class Image:
 
     def second_spot(self):
         return (self.X_second_spot, self.Y_second_spot)
+
+    def __str__(self):
+        return "Image of class : " + str(self.classification)
