@@ -18,30 +18,31 @@ def extract_points():
     """
     Extract the points by taking -5/+5 in every direction from point center
     """
-    SIZE_SPOT = 5
+    SIZE_SPOT = 32
     features, labels = get_dataset(10000)
     index = 0
     for f, l in zip(features, labels):
         if l.classification == 0:
             continue
-        elif l.classification == 1:
-            x_spot, y_spot = round(l.X_first_spot), round(l.Y_first_spot)
+
+        f = cv2.resize(f, (f.shape[0] * 6, f.shape[1] * 6), interpolation=cv2.INTER_CUBIC)
+        if l.classification == 1:
+            x_spot, y_spot = round(l.X_first_spot * 6), round(l.Y_first_spot * 6)
+            spot1 = f[max(1, y_spot - SIZE_SPOT):min(f.shape[1], y_spot + SIZE_SPOT), 
+                max(0, x_spot - SIZE_SPOT):min(f.shape[0], x_spot + SIZE_SPOT)]
             cv2.imwrite("output/spots/" + str(index).zfill(7) + ".tiff", \
-                f[ 
-                max(1, y_spot - SIZE_SPOT):min(f.shape[1], y_spot + SIZE_SPOT), 
-                max(0, x_spot - SIZE_SPOT):min(f.shape[0], x_spot + SIZE_SPOT)])
+                spot1)
             index += 1
         else:
-            x_spot1, y_spot1 = round(l.X_first_spot), round(l.Y_first_spot)
-            x_spot2, y_spot2 = round(l.X_second_spot), round(l.Y_second_spot)
+            x_spot1, y_spot1 = round(l.X_first_spot * 6), round(l.Y_first_spot * 6)
             cv2.imwrite("output/spots/" + str(index) + ".tiff", \
                 f[max(1, y_spot1 - SIZE_SPOT):min(f.shape[1], y_spot1 + SIZE_SPOT), 
                 max(0, x_spot1 - SIZE_SPOT):min(f.shape[0], x_spot1 + SIZE_SPOT)])
+            x_spot2, y_spot2 = round(l.X_second_spot * 6), round(l.Y_second_spot * 6)
             cv2.imwrite("output/spots/" + str(index+1).zfill(7) + ".tiff", \
                 f[max(1, y_spot2 - SIZE_SPOT):min(f.shape[1], y_spot2 + SIZE_SPOT), 
                 max(0, x_spot2 - SIZE_SPOT):min(f.shape[0], x_spot2 + SIZE_SPOT)])
             index += 2
-
 
 if __name__ == "__main__":
     extract_points()

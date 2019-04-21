@@ -1,13 +1,13 @@
 from __future__ import division
 import tensorflow as tf
-from src.import_data import get_dataset_classification_onky
+from src.import_data import get_dataset_classification_only
 import numpy as np
 from src.answers import AbstractModel
 
 class BasicCNN(AbstractModel):
 
     def get_model(self):
-        features, labels = get_dataset_classification_onky(100000)
+        features, labels = get_dataset_classification_only(100000)
         x_train, y_train = np.array(features), np.array(labels)
 
         x_train = x_train / 255.0
