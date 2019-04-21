@@ -8,3 +8,5 @@ output/
 .eggs/
 *.egg-info/
 test_output/
+models/
+DataChallenge/train_individuals_test/*
