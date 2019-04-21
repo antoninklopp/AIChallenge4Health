@@ -13,6 +13,7 @@ from src.answers import AbstractModel
 from src.extract_points import get_unique_spots_labeled
 from random import shuffle
 import numpy as np 
+import cv2
 
 class ImageCNN(AbstractModel):
 
@@ -24,13 +25,14 @@ class ImageCNN(AbstractModel):
         shuffle(dataset)
         imgs = []
         labels = []
+        index = 0
         for img, label in dataset:
-            print(label)
+            cv2.imwrite("test_output/" + str(index) + "_" + str(label) + ".tiff", img * 255)
             imgs.append(img)
             labels.append(label)
+            index += 1
 
         imgs = np.array(imgs)
-        print(imgs.shape)
 
         model = self.get_VGG_16(dataset[0][0].shape[0])
         
@@ -39,7 +41,7 @@ class ImageCNN(AbstractModel):
             metrics=['accuracy'])
 
         imgs = np.array(imgs)
-        model.fit(imgs, labels, epochs=5)
+        model.fit(imgs, labels, epochs=2)
 
         return model
 
@@ -53,13 +55,13 @@ class ImageCNN(AbstractModel):
         model.add(Conv2D(input_size, (3, 3), activation='relu'))
         model.add(ZeroPadding2D((1,1)))
         model.add(Conv2D(input_size, (3, 3), activation='relu'))
-        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_first"))
+        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_last"))
 
         model.add(ZeroPadding2D((1,1)))
         model.add(Conv2D(128, (3, 3), activation='relu'))
         model.add(ZeroPadding2D((1,1)))
         model.add(Conv2D(128, (3, 3), activation='relu'))
-        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_first"))
+        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_last"))
 
         model.add(ZeroPadding2D((1,1)))
         model.add(Conv2D(256, (3, 3), activation='relu'))
@@ -67,7 +69,7 @@ class ImageCNN(AbstractModel):
         model.add(Conv2D(256, (3, 3), activation='relu'))
         model.add(ZeroPadding2D((1,1)))
         model.add(Conv2D(256, (3, 3), activation='relu'))
-        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_first"))
+        model.add(MaxPooling2D((2,2), strides=(2,2), data_format="channels_last"))
 
         model.add(Flatten())
         model.add(Dense(256, activation=tf.nn.relu))

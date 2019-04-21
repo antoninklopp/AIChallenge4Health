@@ -8,6 +8,7 @@ import os
 import scipy
 
 SIZE_SPOT = 16
+RESIZE_FACTOR = 3
 
 def plot_canny():
     dataset, _ = get_dataset_classification_only(10)
@@ -24,7 +25,6 @@ def extract_points():
     """
     Extract the points by taking -5/+5 in every direction from point center
     """
-    RESIZE_FACTOR = 3
     features, labels = get_dataset(None)
     index = 0
     for f, l in zip(features, labels):
@@ -82,7 +82,6 @@ def get_unique_spots_labeled(max_images):
     assert len(glob.glob("output/false_spots/*.tiff")) != 0, "Your false_spots folder is empty"
     assert len(glob.glob("output/spots/*.tiff")) != 0, "Your spots folder is empty"
     
-    index = 0
     for i, true_spot in enumerate(glob.glob("output/spots/*.tiff")):
         if i > max_images:
             break
@@ -92,11 +91,9 @@ def get_unique_spots_labeled(max_images):
         img = np.array(img)/255.0
         img = img.reshape((img.shape[0], img.shape[1], 1))
         yield img, 1
-        index += 1
 
     
-    index = 0
-    for i, false_spot in enumerate(glob.glob("output/spots/*.tiff")):
+    for i, false_spot in enumerate(glob.glob("output/false_spots/*.tiff")):
         if i > max_images:
             break
         img = cv2.imread(false_spot, 0)
@@ -105,7 +102,6 @@ def get_unique_spots_labeled(max_images):
         img = np.array(img)/255.0
         img = img.reshape((img.shape[0], img.shape[1], 1))
         yield img, 0
-        index += 1
 
 
 if __name__ == "__main__":
