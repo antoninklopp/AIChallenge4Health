@@ -56,7 +56,7 @@ def get_dataset(max_images):
     features = []
     labels = []
     for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.tiff"))):
-        if i < max_images:
+        if max_images is None or i < max_images:
             features.append(cv2.imread(t_file, 0))
         else:
             break
@@ -64,7 +64,6 @@ def get_dataset(max_images):
     labels = [i for i in get_csv_training()[:max_images]]
 
     return features, labels
-
 
 if __name__ == "__main__":
     export_data_tiff_to_show()
