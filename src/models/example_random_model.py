@@ -15,9 +15,6 @@ class RandomModel(AbstractModel):
         pass
 
     def evaluate_model(self, data_test):
-        """
-        144994 tests in the data set
-        """
         answers = []
         for i in range(len(data_test)):
             number_points = random.randint(0, 2)
