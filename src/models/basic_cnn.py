@@ -8,6 +8,9 @@ import os
 MODEL_PATH = "models/basic_cnn.h5"
 
 class BasicCNN(AbstractModel):
+    """
+    Simple basic CNN to find the number of points in the image. 
+    """
 
     def get_model(self):
         if os.path.isfile(MODEL_PATH):

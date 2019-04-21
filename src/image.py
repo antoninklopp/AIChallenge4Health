@@ -14,9 +14,17 @@ class Image:
         self.Y_second_spot = float(_Y_second_spot)
 
     def first_spot(self):
+        """
+        :returns: first spot of the image if it exists or (0, 0) if not
+        :rtype: tuple of size 2
+        """
         return (self.X_first_spot, self.Y_first_spot)
 
     def second_spot(self):
+        """
+        :returns: second spot of the image if it exists or (0, 0) if not
+        :rtype: tuple of size 2
+        """
         return (self.X_second_spot, self.Y_second_spot)
 
     def __str__(self):
