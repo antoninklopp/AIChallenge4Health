@@ -19,7 +19,7 @@ class RandomModel(AbstractModel):
         144994 tests in the data set
         """
         answers = []
-        for i in range(144994):
+        for i in range(len(data_test)):
             number_points = random.randint(0, 2)
             new_answer = [number_points]
             for j in range(number_points):
