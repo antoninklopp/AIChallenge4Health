@@ -63,6 +63,12 @@ class ImageCNN(AbstractModel):
         return model
 
     def evaluate_model(self, data_test):
+        """
+        The idea of this model is to use a first classification 
+        from a classic CNN classification network. 
+
+        Than use a VGG network to find the position of the points. 
+        """
 
         answers = []
 
@@ -71,13 +77,13 @@ class ImageCNN(AbstractModel):
         model_classification = b.get_model()
         print("Loaded classification CNN")
 
-        for image in data_test:
+        for index, image in enumerate(data_test):
             label = model_classification.predict(np.array([image]))
             classification = np.argmax(label[0])
-            print(classification)
             # If 0 spots, we return that there is 0 spots
             if classification == 0:
                 answers.append([0, 0, 0, 0, 0])
+                print(index, classification)
                 continue
             image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
             max_probabilities = []
@@ -92,11 +98,20 @@ class ImageCNN(AbstractModel):
 
             # If only one spot, we take the max probability point
             if classification == 1:
+                if len(max_probabilities) == 0:
+                    answers.append([0, 0, 0, 0, 0])
+                    print(index, "1 by classification CNN but no points found")
+                    continue
                 max_prob = max(max_probabilities, key=lambda x : x[2])
                 # x and y are reverse
                 answer = [1, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), 0, 0]
                 answers.append(answer)
-                print(answer)
+                print(index, answer)
+                continue
+
+            if len(max_probabilities) == 0:
+                answers.append([0, 0, 0, 0, 0])
+                print(index, "2 by classification CNN but no points found")
                 continue
 
             # If two spots
@@ -113,7 +128,7 @@ class ImageCNN(AbstractModel):
             answer = [2, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), \
                 max_prob2[1]/float(RESIZE_FACTOR), max_prob2[0]/float(RESIZE_FACTOR)]
             answers.append(answer)
-            print(answer)
+            print(index, answer)
 
 
         return answers
