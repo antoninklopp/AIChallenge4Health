@@ -38,6 +38,7 @@ class ImageCNN(AbstractModel):
             return new_model
 
         dataset = list(get_unique_spots_labeled(10000))
+        print("Number of images in dataset")
         shuffle(dataset)
         imgs = []
         labels = []
@@ -77,7 +78,6 @@ class ImageCNN(AbstractModel):
         b = BasicCNN()
         model_classification = b.get_model()
         print("Loaded classification CNN")
-        print("DATASET LENGTH", len(data_test))
 
         for index, image in enumerate(data_test):
             label = model_classification.predict(np.array([image]))
@@ -90,16 +90,20 @@ class ImageCNN(AbstractModel):
             image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
             max_probabilities = []
             sub_images = []
+            size_col = 0
             for i in range(SIZE_SPOT, image.shape[0] - SIZE_SPOT):
                 for j in range(SIZE_SPOT, image.shape[1] - SIZE_SPOT):
+                    if i == SIZE_SPOT:
+                        size_col += 1
                     sub_image = image[i - SIZE_SPOT:i+SIZE_SPOT, j-SIZE_SPOT:j+SIZE_SPOT]
                     sub_image = np.array(sub_image) / 255.0
                     sub_image = sub_image.reshape((sub_image.shape[0], sub_image.shape[1], 1))
                     sub_images.append(sub_image)
-            answers_sub_images = model.predict(np.array(sub_images))
-            for answer in answers_sub_images:
+            answer_sub_images = model.predict(np.array(sub_images))
+            for answer_index in range(answer_sub_images.shape[0]):
+                answer = answer_sub_images[answer_index, :]
                 if answer[1] > 0.9:
-                    max_probabilities.append((i, j, answer[1]))
+                    max_probabilities.append((answer_index//size_col + SIZE_SPOT, answer_index%size_col + SIZE_SPOT, answer[1]))
 
             # If only one spot, we take the max probability point
             if classification == 1:

@@ -84,6 +84,7 @@ def get_unique_spots_labeled(max_images):
     
     for i, true_spot in enumerate(glob.glob("output/spots/*.tiff")):
         if i > max_images:
+            print("STOPPED AT", i)
             break
         img = cv2.imread(true_spot, 0)
         if img.shape[0] != SIZE_SPOT * 2 or img.shape[1] != SIZE_SPOT * 2:
@@ -95,6 +96,7 @@ def get_unique_spots_labeled(max_images):
     
     for i, false_spot in enumerate(glob.glob("output/false_spots/*.tiff")):
         if i > max_images:
+            print("STOPPED AT", i)
             break
         img = cv2.imread(false_spot, 0)
         if img.shape[0] != SIZE_SPOT * 2 or img.shape[1] != SIZE_SPOT * 2:
