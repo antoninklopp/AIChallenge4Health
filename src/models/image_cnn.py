@@ -31,12 +31,13 @@ class ImageCNN(AbstractModel):
         pass
 
     def get_model(self):
+        print("Creating model")
         if os.path.isfile(MODEL_PATH):
             new_model = tf.keras.models.load_model(MODEL_PATH)
             print("Loaded Image CNN model")
             return new_model
 
-        dataset = list(get_unique_spots_labeled(10000))
+        dataset = list(get_unique_spots_labeled(5000))
         shuffle(dataset)
         imgs = []
         labels = []
@@ -123,9 +124,11 @@ class ImageCNN(AbstractModel):
                 if distance((max_prob[0], max_prob[1]), (p[0], p[1])) > SIZE_SPOT:
                     max_prob2 = (p[0], p [1])
 
+            c = 2    
             if max_prob2 is None:
                 max_prob2 = (0, 0)
-            answer = [2, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), \
+                c = 1
+            answer = [c, max_prob[1]/float(RESIZE_FACTOR), max_prob[0]/float(RESIZE_FACTOR), \
                 max_prob2[1]/float(RESIZE_FACTOR), max_prob2[0]/float(RESIZE_FACTOR)]
             answers.append(answer)
             print(index, answer)
@@ -167,4 +170,4 @@ if __name__ == "__main__":
     i = ImageCNN()
     datatest = get_dataset_test()
     print("Loaded data set to test")
-    i.evaluate_model(datatest)
+    i.write_answers_to_csv()

@@ -2,7 +2,7 @@
 This script is meant to create the csv for the answers to the challenge. 
 """
 
-from src.import_data import get_data_test
+from src.import_data import get_dataset_test
 import csv 
 from abc import ABC, abstractmethod
 
@@ -27,7 +27,7 @@ class AbstractModel(ABC):
         """
         Writes the answers to a csv file
         """
-        data_test = get_data_test()
+        data_test = get_dataset_test()
         answers_model = self.evaluate_model(data_test)
         # Add the number of the test to the answers model
         for i in range(len(answers_model)):

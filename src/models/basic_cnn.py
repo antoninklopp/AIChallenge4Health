@@ -15,7 +15,8 @@ class BasicCNN(AbstractModel):
             print("Loaded Basic CNN model")
             return new_model
 
-        features, labels = get_dataset_classification_only(100000)
+        features, labels = get_dataset_classification_only(500000)
+        print("Loaded dataset classification only")
         x_train, y_train = np.array(features), np.array(labels)
 
         x_train = x_train / 255.0
