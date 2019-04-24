@@ -75,9 +75,18 @@ def calculate_metric(list_answers, list_true):
                     distance(truth.first_spot(), answer.second_spot()))
             images_2 += 1
 
-    score_0 = score_0/float(images_0)
-    score_1 = score_1/float(images_1)
-    score_2 = score_2/float(images_2)
+    if images_0 != 0:
+        score_0 = score_0/float(images_0)
+    else:
+        score_0 = 1
+    if images_1 != 0:
+        score_1 = score_1/float(images_1)
+    else:
+        score_1 = 1
+    if images_2 != 0:
+        score_2 = score_2/float(images_2)
+    else:
+        score_2 = 1
 
-    return 0.2 * score_0 + 0.5 * score_1 * 0.3 * score_2
+    return 0.2 * score_0 + 0.5 * score_1 + 0.3 * score_2
 
