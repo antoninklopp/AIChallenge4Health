@@ -39,6 +39,9 @@ class TestMetric:
 
     def test_equality(self):
         images = self.create_randomImages(10)
+        images += self.create_0_images(1)
+        images += self.create_1_images(1)
+        images += self.create_2_images(1)
         assert calculate_metric(images, images) == 0
 
     def test_all_different(self):
@@ -50,4 +53,5 @@ class TestMetric:
 
 if __name__ == "__main__":
     t = TestMetric()
+    t.test_equality()
     t.test_all_different()

@@ -3,7 +3,7 @@ from src.image import Image
 
 D = 2
 
-def score_distance(spot1, spot2):
+def distance(spot1, spot2):
     """
     Defines the distance between two spots
 
@@ -16,7 +16,7 @@ def score_distance(spot1, spot2):
     :returns: the distance
     :rtype: float
     """
-    d = Math.sqrt((spot2[0] - spot1[0]) **2 + (spot2[1] - spot1[1]) **2)
+    d = math.sqrt((spot2[0] - spot1[0]) **2 + (spot2[1] - spot1[1]) **2)
     if d < D:
         return d
     else:
@@ -52,7 +52,7 @@ def calculate_metric(list_answers, list_true):
         if truth.classification == 0:
             if answer.classification != 0:
                 score_0 += 1
-            image_0 += 1
+            images_0 += 1
         elif truth.classification == 1:
             if answer.classification == 0:
                 score_1 += 1
@@ -79,10 +79,12 @@ def calculate_metric(list_answers, list_true):
         score_0 = score_0/float(images_0)
     else:
         score_0 = 1
+        
     if images_1 != 0:
         score_1 = score_1/float(images_1)
     else:
         score_1 = 1
+
     if images_2 != 0:
         score_2 = score_2/float(images_2)
     else:
