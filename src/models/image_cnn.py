@@ -107,7 +107,7 @@ class ImageCNN(AbstractModel):
 
             # If only one spot, we take the max probability point
             if classification == 1:
-                if len(max_probabilities) == 0:
+                if not max_probabilities:
                     answers.append([0, 0, 0, 0, 0])
                     print(index, "1 by classification CNN but no points found")
                     continue
@@ -118,7 +118,7 @@ class ImageCNN(AbstractModel):
                 print(index, answer)
                 continue
 
-            if len(max_probabilities) == 0:
+            if not max_probabilities:
                 answers.append([0, 0, 0, 0, 0])
                 print(index, "2 by classification CNN but no points found")
                 continue

@@ -10,17 +10,6 @@ import scipy
 SIZE_SPOT = 16
 RESIZE_FACTOR = 3
 
-def plot_canny():
-    dataset, _ = get_dataset_classification_only(10)
-    edges = cv2.Canny(img, 100, 200)
-
-    plt.subplot(121),plt.imshow(img,cmap = 'gray')
-    plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-    plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
-
-    plt.show()
-
 def extract_points():
     """
     Extract the points by taking -5/+5 in every direction from point center
@@ -79,8 +68,8 @@ def get_unique_spots_labeled(max_images):
     """
     assert os.path.isdir("output/spots"), "You must create a spots folder"
     assert os.path.isdir("output/false_spots"), "You must create a false_spots folder"
-    assert len(glob.glob("output/false_spots/*.tiff")) != 0, "Your false_spots folder is empty"
-    assert len(glob.glob("output/spots/*.tiff")) != 0, "Your spots folder is empty"
+    assert glob.glob("output/false_spots/*.tiff"), "Your false_spots folder is empty"
+    assert glob.glob("output/spots/*.tiff"), "Your spots folder is empty"
     
     for i, true_spot in enumerate(glob.glob("output/spots/*.tiff")):
         if i > max_images:
@@ -109,3 +98,4 @@ def get_unique_spots_labeled(max_images):
 if __name__ == "__main__":
     extract_points()
     extract_false_images()
+    
