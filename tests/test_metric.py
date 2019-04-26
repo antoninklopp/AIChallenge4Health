@@ -1,5 +1,5 @@
 from src.image import Image
-from src.calculate_metrics import calculate_metric
+from src.calculate_metrics import calculate_metric, calculate_metric_classification
 import random
 
 class TestMetric:
@@ -51,7 +51,18 @@ class TestMetric:
         images_2 = self.create_2_images(10)
         assert calculate_metric(images_0, images_2) == 1
 
+    def test_classification(self):
+        images_0 = self.create_0_images(10)
+        assert calculate_metric_classification(images_0, images_0) == 0
+        images_1 = self.create_1_images(10)
+        assert calculate_metric_classification(images_1, images_1) == 0
+        images_2 = self.create_2_images(10)
+        assert calculate_metric_classification(images_2, images_2) == 0
+
+
 if __name__ == "__main__":
     t = TestMetric()
     t.test_equality()
     t.test_all_different()
+    t.test_classification()
+    

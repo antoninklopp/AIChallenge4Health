@@ -19,8 +19,7 @@ def distance(spot1, spot2):
     d = math.sqrt((spot2[0] - spot1[0]) **2 + (spot2[1] - spot1[1]) **2)
     if d < D:
         return d
-    else:
-        return 1
+    return 1
 
 def calculate_metric(list_answers, list_true):
     """
@@ -92,3 +91,43 @@ def calculate_metric(list_answers, list_true):
 
     return 0.2 * score_0 + 0.5 * score_1 + 0.3 * score_2
 
+def calculate_metric_classification(list_answers, list_true):
+    """
+
+    Calculates the metric, only using classification, 
+    to verify if the algorithm finds the good number of points,
+    used by the online algorithm to test 
+    the precision of the predictions
+
+    :param list_answers: List of answers given by the algorithm
+    :type: list of Images
+
+    :param list_true: the list of true value corresponding to @list_answers
+    :type: list of Images
+
+    :returns: a score between 0 and 1. 
+    0 means every value was perfectly predected
+    1 means every value was wrongly predicted
+    :rtype: float between 0 and 1
+    """
+    scores = [0, 0, 0]
+    images = [0, 0, 0]
+    weights = [0.2, 0.5, 0.3]
+    for answer, truth in zip(list_answers, list_true):
+        if truth.classification != answer.classification:
+            scores[truth.classification] += 1
+        images[truth.classification] += 1
+    
+    totalScore = 0
+    totalWeights = 0
+
+    for index, (score, image) in enumerate(zip(scores, images)):
+        if image == 0:
+            scores[index] = 1
+        else:
+            scores[index] = float(score)/image
+            totalScore += scores[index] * weights[index]
+            totalWeights += weights[index]
+
+    return totalScore/totalWeights
+    
