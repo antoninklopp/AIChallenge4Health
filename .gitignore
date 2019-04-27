@@ -7,3 +7,5 @@ DataChallenge/train_individuals/*
 output/
 .eggs/
 *.egg-info/
+test_output/
+DataChallenge/train_individuals_test/*

@@ -1,8 +1,11 @@
 from __future__ import division
 import tensorflow as tf
-from src.import_data import get_dataset
+from src.import_data import get_dataset_classification_only
 import numpy as np
 from src.answers import AbstractModel
+import os
+
+MODEL_PATH = "models/basic_cnn.h5"
 
 class BasicCNN(AbstractModel):
     """
@@ -10,12 +13,16 @@ class BasicCNN(AbstractModel):
     """
 
     def get_model(self):
-        features, labels = get_dataset(100000)
+        if os.path.isfile(MODEL_PATH):
+            new_model = tf.keras.models.load_model(MODEL_PATH)
+            print("Loaded Basic CNN model")
+            return new_model
+
+        features, labels = get_dataset_classification_only(500000)
+        print("Loaded dataset classification only")
         x_train, y_train = np.array(features), np.array(labels)
 
         x_train = x_train / 255.0
-
-        print(x_train)
 
         model = tf.keras.models.Sequential([
             tf.keras.layers.Flatten(input_shape=(24, 24)),
@@ -28,6 +35,8 @@ class BasicCNN(AbstractModel):
                     metrics=['accuracy'])
 
         model.fit(x_train, y_train, epochs=5)
+
+        model.save(MODEL_PATH)
 
         return model
 

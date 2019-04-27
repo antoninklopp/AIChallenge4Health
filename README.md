@@ -18,6 +18,13 @@ me@machine:~$ python3 setup.py test # To test all unit tests
 me@machine:~$ python3 tests/__test_test_you_want.py
 ```
 
+## Use tensorflow-gpu and verify it is working
+
+```python
+import tensorflow as tf
+tf.test.is_gpu_available()
+```
+
 ## Contribute
 
 To create a new model, have a look at : [Models' README](src/models/README.md)
