@@ -56,12 +56,12 @@ def export_data_tiff_to_show():
     """
     train_data = get_data_training()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".tiff", image)
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", image)
 
 def export_data_test_tiff():
     train_data = get_data_test()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals_test/" + str(i).zfill(6) + ".tiff", image)
+        cv2.imwrite("DataChallenge/train_individuals_test/" + str(i).zfill(6) + ".jpg", image)
 
 def get_dataset_classification_only(max_images):
     """
