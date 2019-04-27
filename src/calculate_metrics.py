@@ -91,7 +91,7 @@ def calculate_metric(list_answers, list_true):
 
     return 0.2 * score_0 + 0.5 * score_1 + 0.3 * score_2
 
-def calculate_metric_classification(list_answers, list_true):
+def calculate_metric_classification(list_answers, list_true, print_report=True):
     """
 
     Calculates the metric, only using classification, 
@@ -128,6 +128,13 @@ def calculate_metric_classification(list_answers, list_true):
             scores[index] = float(score)/image
             totalScore += scores[index] * weights[index]
             totalWeights += weights[index]
+
+    if print_report:
+        report =  "Report of the metric \n"
+        for index, (s, i) in enumerate(zip(scores, images)):
+            report += "Score for " + str(index) + " points images : " + str(s) + " for " + str(i) + " images\n"
+        report += "FINAL SCORE : " + str(totalScore/totalWeights)
+        print(report)
 
     return totalScore/totalWeights
     
