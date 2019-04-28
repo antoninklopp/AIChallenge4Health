@@ -6,6 +6,9 @@ from skimage import io
 import glob
 import scipy
 
+RESIZE_FACTOR=5
+
+
 def get_csv_training():
     """
     Get the annotations for
@@ -71,6 +74,7 @@ def augment_contrast(image):
     xx, yy, zz = np.where(image <= 255/MULTIPLE)
     image[x, y, z] = 255
     image[xx, yy, zz] = image[xx, yy, zz] * MULTIPLE
+    image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
     # image = scipy.signal.medfilt(image, 5)
     return image
 
