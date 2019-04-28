@@ -4,7 +4,7 @@ import csv
 from src.image import Image
 from skimage import io
 import glob
-
+import scipy
 
 def get_csv_training():
     """
@@ -56,7 +56,23 @@ def export_data_tiff_to_show():
     """
     train_data = get_data_training()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", image)
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", augment_contrast(image))
+
+def augment_contrast(image):
+    """
+    We choose to augment the contrast on the images simply by multiplying the 
+    values of the image by a certain number. 
+
+    Because the values of points are very low, we are sure that we will not 
+    destroy 
+    """
+    MULTIPLE = 3
+    x, y, z = np.where(image > 255/3)
+    xx, yy, zz = np.where(image <= 255/MULTIPLE)
+    image[x, y, z] = 255
+    image[xx, yy, zz] = image[xx, yy, zz] * MULTIPLE
+    # image = scipy.signal.medfilt(image, 5)
+    return image
 
 def export_data_test_tiff():
     train_data = get_data_test()
