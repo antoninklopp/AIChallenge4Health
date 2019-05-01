@@ -5,7 +5,7 @@ from src.calculate_metrics import calculate_metric_classification
 import numpy as np
 from src.image import Image
 
-def test_classification_score():
+def classification_score():
     """
     Test the classificarion score on the basic CNN
     """
@@ -21,4 +21,4 @@ def test_classification_score():
     
 
 if __name__ == "__main__":
-    print(test_classification_score())
+    print(classification_score())
