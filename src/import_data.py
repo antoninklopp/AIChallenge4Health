@@ -113,7 +113,7 @@ def get_dataset(max_images=None):
     """
     features = []
     labels = []
-    for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.tiff"))):
+    for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.jpg"))):
         if max_images is None or i < max_images:
             features.append(cv2.imread(t_file, 0))
         else:
