@@ -75,7 +75,7 @@ def augment_contrast(image):
     image[x, y, z] = 255
     image[xx, yy, zz] = image[xx, yy, zz] * MULTIPLE
     image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
-    # image = scipy.signal.medfilt(image, 5)
+    image = scipy.signal.medfilt(image, 5)
     return image
 
 def export_data_test_tiff():

@@ -24,42 +24,23 @@ def get_yolo_config():
             info = " ".join([str(i) for i in [0, l.X_first_spot/24.0, l.Y_first_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
             file_yolo.write(info)
         else:
-            if distance(l.first_spot(), l.second_spot()) < 8.0:
-                size_spot_X = 8.0
-                if l.X_first_spot < 4.0 or l.X_first_spot > 24 - 4.0:
-                    size_spot_X = min(l.X_first_spot, 24-l.X_first_spot) * 2
-                size_spot_Y = 8.0
-                if l.Y_first_spot < 4.0 or l.Y_first_spot > 24 - 4.0:
-                    size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot) * 2
-                info = " ".join([str(i) for i in [1, l.X_first_spot/24.0, l.Y_first_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
-                file_yolo.write(info)
-                file_yolo.write("\n")
-                size_spot_X = 8.0
-                if l.X_second_spot < 4.0 or l.X_second_spot > 24 - 4.0:
-                    size_spot_X = min(l.X_second_spot, 24-l.X_second_spot) * 2
-                size_spot_Y = 8.0
-                if l.Y_second_spot < 4.0 or l.Y_second_spot > 24 - 4.0:
-                    size_spot_Y = min(l.Y_second_spot, 24-l.Y_second_spot) * 2
-                info = " ".join([str(i) for i in [1, l.X_second_spot/24.0, l.Y_second_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
-                file_yolo.write(info)
-            else:
-                size_spot_X = 8.0
-                if l.X_first_spot < 4.0 or l.X_first_spot > 24 - 4.0:
-                    size_spot_X = min(l.X_first_spot, 24-l.X_first_spot) * 2
-                size_spot_Y = 8.0
-                if l.Y_first_spot < 4.0 or l.Y_first_spot > 24 - 4.0:
-                    size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot) * 2
-                info = " ".join([str(i) for i in [0, l.X_first_spot/24.0, l.Y_first_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
-                file_yolo.write(info)
-                file_yolo.write("\n")
-                size_spot_X = 8.0
-                if l.X_second_spot < 4.0 or l.X_second_spot > 24 - 4.0:
-                    size_spot_X = min(l.X_second_spot, 24-l.X_second_spot) * 2
-                size_spot_Y = 8.0
-                if l.Y_second_spot < 4.0 or l.Y_second_spot > 24 - 4.0:
-                    size_spot_Y = min(l.Y_second_spot, 24-l.Y_second_spot) * 2
-                info = " ".join([str(i) for i in [0, l.X_second_spot/24.0, l.Y_second_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
-                file_yolo.write(info)
+            size_spot_X = 8.0
+            if l.X_first_spot < 4.0 or l.X_first_spot > 24 - 4.0:
+                size_spot_X = min(l.X_first_spot, 24-l.X_first_spot) * 2
+            size_spot_Y = 8.0
+            if l.Y_first_spot < 4.0 or l.Y_first_spot > 24 - 4.0:
+                size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot) * 2
+            info = " ".join([str(i) for i in [0, l.X_first_spot/24.0, l.Y_first_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
+            file_yolo.write(info)
+            file_yolo.write("\n")
+            size_spot_X = 8.0
+            if l.X_second_spot < 4.0 or l.X_second_spot > 24 - 4.0:
+                size_spot_X = min(l.X_second_spot, 24-l.X_second_spot) * 2
+            size_spot_Y = 8.0
+            if l.Y_second_spot < 4.0 or l.Y_second_spot > 24 - 4.0:
+                size_spot_Y = min(l.Y_second_spot, 24-l.Y_second_spot) * 2
+            info = " ".join([str(i) for i in [0, l.X_second_spot/24.0, l.Y_second_spot/24.0, size_spot_X/24.0, size_spot_Y/24.0]])
+            file_yolo.write(info)
         file_yolo.close()
 
 if __name__ == "__main__":
