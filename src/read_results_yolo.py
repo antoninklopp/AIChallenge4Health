@@ -41,9 +41,8 @@ def read_in():
                 left, right, top, bottom = int(left), int(right), int(top), int(bottom)
                 current_image_points.append([0, left, right, bottom, top])
 
+    list_images_out.pop(0)
     return list_images_out
-                
-                
 
 if __name__ == "__main__":
     for image in read_in():
