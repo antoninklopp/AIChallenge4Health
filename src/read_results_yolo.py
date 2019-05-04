@@ -8,7 +8,7 @@ def read_in():
     list_images_out = []
     index = 0
     current_image_points = []
-    with open("../darknet/output_global.txt") as results:
+    with open("./darknet/output_global.txt") as results:
         lines = results.readlines()
         for line in lines:
             try:
