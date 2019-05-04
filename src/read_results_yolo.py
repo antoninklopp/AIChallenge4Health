@@ -15,7 +15,6 @@ def read_in():
                 i = int(line)
                 if i != index:
                     print("PROBLEM")
-                    raise
                     exit()
                 if not current_image_points:
                     list_images_out.append(Image(index, 0, 0, 0, 0, 0))
@@ -35,7 +34,7 @@ def read_in():
                 # Reset the current image
                 current_image_points = []
                 index += 1
-            except:
+            except ValueError:
                 # Real line
                 left, top, right, bottom = line.split(" ")
                 left, right, top, bottom = int(left), int(right), int(top), int(bottom)

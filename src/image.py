@@ -37,3 +37,4 @@ class Image:
                 return returnString
             returnString += "\nSecond spot : " + str(self.second_spot())
         return returnString
+        
