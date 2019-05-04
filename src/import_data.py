@@ -4,6 +4,9 @@ import csv
 from src.image import Image
 from skimage import io
 import glob
+import scipy
+
+RESIZE_FACTOR=5
 
 
 def get_csv_training():
@@ -56,12 +59,29 @@ def export_data_tiff_to_show():
     """
     train_data = get_data_training()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".tiff", image)
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", augment_contrast(image))
+
+def augment_contrast(image):
+    """
+    We choose to augment the contrast on the images simply by multiplying the 
+    values of the image by a certain number. 
+
+    Because the values of points are very low, we are sure that we will not 
+    destroy 
+    """
+    MULTIPLE = 3
+    x, y, z = np.where(image > 255/3)
+    xx, yy, zz = np.where(image <= 255/MULTIPLE)
+    image[x, y, z] = 255
+    image[xx, yy, zz] = image[xx, yy, zz] * MULTIPLE
+    image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
+    image = scipy.signal.medfilt(image, 5)
+    return image
 
 def export_data_test_tiff():
     train_data = get_data_test()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals_test/" + str(i).zfill(6) + ".tiff", image)
+        cv2.imwrite("DataChallenge/train_individuals_test/" + str(i).zfill(6) + ".jpg", image)
 
 def get_dataset_classification_only(max_images):
     """
@@ -93,7 +113,7 @@ def get_dataset(max_images=None):
     """
     features = []
     labels = []
-    for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.tiff"))):
+    for i, t_file in enumerate(sorted(glob.glob("DataChallenge/train_individuals/*.jpg"))):
         if max_images is None or i < max_images:
             features.append(cv2.imread(t_file, 0))
         else:

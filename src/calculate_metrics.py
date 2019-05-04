@@ -47,7 +47,10 @@ def calculate_metric(list_answers, list_true):
     # Number of images with 2 points
     images_2 = 0
     score_2 = 0
-    for answer, truth in zip(list_answers, list_true):
+    for image_index, (answer, truth) in enumerate(zip(list_answers, list_true)):
+        print("index", image_index)
+        print("MY ANSWER", answer)
+        print("GOOD ANSWER", truth)
         if truth.classification == 0:
             if answer.classification != 0:
                 score_0 += 1
@@ -57,6 +60,7 @@ def calculate_metric(list_answers, list_true):
                 score_1 += 1
             elif answer.classification == 1:
                 score_1 += distance(truth.first_spot(), answer.first_spot())
+                print("score for this image", distance(truth.first_spot(), answer.first_spot()))
             else:
                 score_1 += (1 + min(distance(truth.first_spot(), answer.first_spot()), \
                     distance(truth.first_spot(), answer.second_spot())))/2
@@ -68,10 +72,12 @@ def calculate_metric(list_answers, list_true):
                 score_2 += (1 + min(distance(truth.first_spot(), answer.first_spot()), \
                     distance(truth.second_spot(), answer.first_spot())))/2
             else:
-                score_2 += min(distance(truth.first_spot(), answer.first_spot()), \
+                score_this_image = min(distance(truth.first_spot(), answer.first_spot()), \
                     distance(truth.second_spot(), answer.first_spot()), \
                     distance(truth.first_spot(), answer.second_spot()), \
                     distance(truth.first_spot(), answer.second_spot()))
+                score_2 += score_this_image
+                print("score for this image", score_this_image)
             images_2 += 1
 
     if images_0 != 0:
@@ -89,9 +95,13 @@ def calculate_metric(list_answers, list_true):
     else:
         score_2 = 1
 
+    print("Score 0 : ", score_0)
+    print("Score 1 : ", score_1)
+    print("Score 2 : ", score_2)
+
     return 0.2 * score_0 + 0.5 * score_1 + 0.3 * score_2
 
-def calculate_metric_classification(list_answers, list_true):
+def calculate_metric_classification(list_answers, list_true, print_report=True):
     """
 
     Calculates the metric, only using classification, 
@@ -128,6 +138,13 @@ def calculate_metric_classification(list_answers, list_true):
             scores[index] = float(score)/image
             totalScore += scores[index] * weights[index]
             totalWeights += weights[index]
+
+    if print_report:
+        report =  "Report of the metric \n"
+        for index, (s, i) in enumerate(zip(scores, images)):
+            report += "Score for " + str(index) + " points images : " + str(s) + " for " + str(i) + " images\n"
+        report += "FINAL SCORE : " + str(totalScore/totalWeights)
+        print(report)
 
     return totalScore/totalWeights
     

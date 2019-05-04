@@ -9,3 +9,7 @@ output/
 *.egg-info/
 test_output/
 DataChallenge/train_individuals_test/*
+output_yolo/
+output_vis/
+train.txt
+test.txt

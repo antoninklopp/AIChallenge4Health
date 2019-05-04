@@ -25,6 +25,16 @@ import tensorflow as tf
 tf.test.is_gpu_available()
 ```
 
+## Instructions for YOLO
+
+To test : 
+./darknet detector test cfg/obj.data cfg/tiny_yolo_perso.cfg backup/tiny_yolo_perso_last.weights ../AIChallenge4Health/DataChallenge/train_individuals/000017.jpg -thresh 0.97
+
+To train:
+./darknet detector train cfg/obj.data cfg/tiny_yolo_perso.cfg
+
+
+
 ## Contribute
 
 To create a new model, have a look at : [Models' README](src/models/README.md)

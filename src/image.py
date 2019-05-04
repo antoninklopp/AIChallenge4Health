@@ -28,4 +28,13 @@ class Image:
         return (self.X_second_spot, self.Y_second_spot)
 
     def __str__(self):
-        return "Image of class : " + str(self.classification)
+        returnString = "Image of class : " + str(self.classification)
+        if self.classification == 0:
+            return returnString
+        else:
+            returnString += "\nFirst spot : " + str(self.first_spot())
+            if self.classification == 1:
+                return returnString
+            returnString += "\nSecond spot : " + str(self.second_spot())
+        return returnString
+        
