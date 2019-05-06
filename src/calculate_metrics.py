@@ -18,7 +18,7 @@ def distance(spot1, spot2):
     """
     d = math.sqrt((spot2[0] - spot1[0]) **2 + (spot2[1] - spot1[1]) **2)
     if d < D:
-        return d
+        return d/D
     return 1
 
 def calculate_metric(list_answers, list_true):
@@ -100,6 +100,32 @@ def calculate_metric(list_answers, list_true):
     print("Score 2 : ", score_2)
 
     return 0.2 * score_0 + 0.5 * score_1 + 0.3 * score_2
+
+def score_one_image(answer, truth):
+    if truth.classification == 0:
+        if answer.classification != 0:
+            return 1
+    elif truth.classification == 1:
+        if answer.classification == 0:
+            return 1
+        elif answer.classification == 1:
+            return distance(truth.first_spot(), answer.first_spot())
+        else:
+            return (1 + min(distance(truth.first_spot(), answer.first_spot()), \
+                distance(truth.first_spot(), answer.second_spot())))/2
+    else:
+        if answer.classification == 0:
+            return 1
+        elif answer.classification == 1:
+            return (1 + min(distance(truth.first_spot(), answer.first_spot()), \
+                distance(truth.second_spot(), answer.first_spot())))/2
+        else:
+            score_this_image = min(distance(truth.first_spot(), answer.first_spot()), \
+                distance(truth.second_spot(), answer.first_spot()), \
+                distance(truth.first_spot(), answer.second_spot()), \
+                distance(truth.first_spot(), answer.second_spot()))
+            return score_this_image
+    return 0
 
 def calculate_metric_classification(list_answers, list_true, print_report=True):
     """

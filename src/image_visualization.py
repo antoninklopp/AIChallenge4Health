@@ -3,7 +3,7 @@ import cv2
 from image import Image
 
 def visualize_points_one_image():
-    features, labels = get_dataset(100)
+    features, labels = get_dataset(1000)
     boudaries = 4 * RESIZE_FACTOR
     for index, (f, l) in enumerate(zip(features, labels)):
         if l.classification == 0:
