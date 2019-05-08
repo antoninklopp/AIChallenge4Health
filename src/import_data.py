@@ -59,12 +59,7 @@ def export_data_tiff_to_show():
     """
     train_data = get_data_training()
     for i, image in enumerate(train_data):
-        print(i)
-        try:
-            cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", rescale_images(image))
-        except:
-            print("PROBLEM DURING RESCALING")
-            cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", augment_contrast(image))
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", image)
 
 def augment_contrast(image):
     """
