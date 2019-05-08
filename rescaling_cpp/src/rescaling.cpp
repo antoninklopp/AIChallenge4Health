@@ -79,7 +79,7 @@ void rescale_image(string pathImage, int imageNumber)
     buffer << setfill('0') << setw(6) << imageNumber;
     string destName = path + buffer.str();
     cv::resize(img, dest, rescaledSize, INTER_CUBIC);
-    cv::imwrite(destName + "_rescaled.jpg", dest);
+    cv::imwrite(destName + ".jpg", dest);
 }
 
 vector<string> globVector(const string &pattern)
@@ -103,9 +103,6 @@ void rescale_all_images()
     // #pragma omp for private(f)
     for (f = 0; f < files.size(); f++)
     {
-        if (f > 10){
-            break; 
-        }
         cerr << f << "\n"; 
         rescale_image(files[f], f); 
     }
