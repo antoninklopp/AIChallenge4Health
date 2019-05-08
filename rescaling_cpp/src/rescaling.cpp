@@ -62,6 +62,9 @@ void rescale_image(string pathImage, int imageNumber)
         }
     }
 
+    // We rescale this value because some time it is too high
+    maximum = min(maximum, 150);
+
     for (int i = 0; i < img.rows; i++)
     {
         for (int j = 0; j < img.cols; j++)
