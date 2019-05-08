@@ -5,9 +5,9 @@ from src.image import Image
 from skimage import io
 import glob
 import scipy
+import matplotlib.pyplot as plt
 
 RESIZE_FACTOR=5
-
 
 def get_csv_training():
     """
@@ -59,7 +59,7 @@ def export_data_tiff_to_show():
     """
     train_data = get_data_training()
     for i, image in enumerate(train_data):
-        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", augment_contrast(image))
+        cv2.imwrite("DataChallenge/train_individuals/" + str(i).zfill(6) + ".jpg", image)
 
 def augment_contrast(image):
     """
@@ -75,7 +75,40 @@ def augment_contrast(image):
     image[x, y, z] = 255
     image[xx, yy, zz] = image[xx, yy, zz] * MULTIPLE
     image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
-    image = scipy.signal.medfilt(image, 5)
+    # image = scipy.signal.medfilt(image, 5)
+    return image
+
+def rescale_images(image):
+    BIN_SIZE = 10
+    MULTIPLE = 3
+    CHANNELS = 3 
+    # First find min and max of the images
+    hist, bins, _ = plt.hist(image.flatten(), bins=[i * BIN_SIZE for i in range(255//BIN_SIZE + 1)])
+
+    minimum, maximum = 0, 255
+
+    # Min
+    for index, value in enumerate(hist.tolist()):
+        if value > 10 * CHANNELS:
+            minimum = index * BIN_SIZE 
+            break
+
+    # Max
+    for index, value in enumerate(reversed(hist.tolist())):
+        if value > 10 * CHANNELS:
+            maximum = (255 - index * BIN_SIZE)
+            break
+
+    print(minimum, maximum)
+    x, y, z = np.where(image > maximum)
+    xx, yy, zz = np.where(image < minimum)
+    image[x, y, z] = maximum
+    image[xx, yy, zz] = minimum
+
+    function = np.vectorize(lambda x : int((x-minimum)/float(maximum-minimum)*255), otypes=[np.uint8])
+    image = function(image) 
+
+    image = cv2.resize(image, (image.shape[0] * RESIZE_FACTOR, image.shape[1] * RESIZE_FACTOR), interpolation=cv2.INTER_CUBIC)
     return image
 
 def export_data_test_tiff():
@@ -134,5 +167,5 @@ def get_dataset_test(max_images=None):
     return test_files
 
 if __name__ == "__main__":
-    export_data_test_tiff()
+    # export_data_test_tiff()
     export_data_tiff_to_show()

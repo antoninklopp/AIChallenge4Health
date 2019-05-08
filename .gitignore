@@ -13,3 +13,4 @@ output_yolo/
 output_vis/
 train.txt
 test.txt
+rescaling_cpp/bin/
