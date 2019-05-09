@@ -11,6 +11,8 @@ def find_far_images():
         s = score_one_image(answer, truth)
         if s > THRESHOLD_ERROR:
             print("image", i, "error : ", s)
+            print(answer)
+            print(truth, "\n")
 
 if __name__ == "__main__":
     find_far_images()
