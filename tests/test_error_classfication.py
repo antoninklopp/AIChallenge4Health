@@ -2,7 +2,7 @@ from src.calculate_metrics import score_one_image
 from src.read_results_yolo import read_in
 from src.import_data import get_csv_training, get_dataset, get_dataset_classification_only
 
-THRESHOLD_ERROR = 0.8
+THRESHOLD_ERROR = 0.4
 
 def find_far_images():
     images_yolo = read_in()

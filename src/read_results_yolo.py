@@ -5,13 +5,14 @@ def is_spot_possible(left, right, bottom, top):
     """
     Says if the spot is in an impossible location or impossible size
     """
-    if right < 8 or bottom < 8:
+    return True
+    if right < 6 or bottom < 6:
         # print("IMPOSSIBLE", left, right, top, bottom)
         return False
-    if left > 16 or top > 16:
+    if left > 18 or top > 18:
         # print("IMPOSSIBLE", left, right, top, bottom)
         return False
-    if abs(top - bottom) > 14 or abs(right - left) > 14:
+    if abs(top - bottom) > 16 or abs(right - left) > 16:
         # print("IMPOSSIBLE", left, right, top, bottom)
         return False
     return True

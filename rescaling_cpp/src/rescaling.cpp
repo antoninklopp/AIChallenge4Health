@@ -46,7 +46,7 @@ void rescale_image(string pathImage, int imageNumber)
     int RESIZE_FACTOR = 5;
     Mat img = imread(pathImage, IMREAD_GRAYSCALE);
     img.convertTo(img, CV_64FC1);
-    int BIN_SIZE = 10;
+    int BIN_SIZE = 5;
     int MULTIPLE = 3;
     int CHANNELS = 1;
 
