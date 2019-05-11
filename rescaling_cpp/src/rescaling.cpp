@@ -7,7 +7,7 @@ vector<int> histogram(Mat &img, int binSize)
     {
         for (int j = 0; j < img.cols; j++)
         {
-            hist[(int)(img.at<double>(i, j) / binSize)]++;
+            hist[(int)(img.at<double>(i, j) / binSize) + 1]++;
         }
     }
     return hist;
@@ -15,7 +15,7 @@ vector<int> histogram(Mat &img, int binSize)
 
 double rescale_pixel(double x, int minimum, int maximum)
 {
-    int newValue = (int)((x - minimum) / (float)(maximum - minimum) * 255);
+    int newValue = (int)((float)(x - minimum) / (float)(maximum - minimum) * 255);
     if (newValue < 0)
     {
         newValue = 0;
@@ -27,12 +27,26 @@ double rescale_pixel(double x, int minimum, int maximum)
     return (double)newValue;
 }
 
+double findMinimum(Mat &img){
+    double minimum = 255; 
+    for (int i = 0; i < img.rows; i++)
+    {
+        for (int j = 0; j < img.cols; j++)
+        {
+            if (img.at<double>(i, j) < minimum){
+                minimum = img.at<double>(i, j); 
+            }
+        }
+    }
+    return minimum;
+}
+
 void rescale_image(string pathImage, int imageNumber)
 {
     int RESIZE_FACTOR = 5;
     Mat img = imread(pathImage, IMREAD_GRAYSCALE);
     img.convertTo(img, CV_64FC1);
-    int BIN_SIZE = 10;
+    int BIN_SIZE = 5;
     int MULTIPLE = 3;
     int CHANNELS = 1;
 
@@ -62,6 +76,10 @@ void rescale_image(string pathImage, int imageNumber)
         }
     }
 
+    // We rescale this value because some time it is too high
+    maximum = min(maximum, 80);
+    minimum = min(minimum, maximum); 
+
     for (int i = 0; i < img.rows; i++)
     {
         for (int j = 0; j < img.cols; j++)
@@ -72,6 +90,7 @@ void rescale_image(string pathImage, int imageNumber)
     }
 
     cerr << "minimum " << minimum << " maxmimum " << maximum << endl; 
+    assert (findMinimum(img) < 1); 
 
     Size rescaledSize(img.rows * RESIZE_FACTOR, img.cols * RESIZE_FACTOR);
     Mat dest(rescaledSize, CV_8UC1);
