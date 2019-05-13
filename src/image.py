@@ -38,3 +38,8 @@ class Image:
             returnString += "\nSecond spot : " + str(self.second_spot())
         return returnString
         
+    def to_csv(self):
+        """
+        Returns the string to print to the csv file
+        """
+        return " ".join([str(self.id), self.X_first_spot, self.Y_first_spot, self.X_second_spot, self.Y_second_spot])

@@ -114,9 +114,9 @@ vector<string> globVector(const string &pattern)
     return files;
 }
 
-void rescale_all_images()
+void rescale_all_images(string path_images)
 {
-    vector<string> files = globVector(path + "*.jpg");
+    vector<string> files = globVector(path_images + "*.jpg");
     cerr << path + "*.jpg" << endl; 
     int f = 0; 
     // #pragma omp for private(f)
@@ -129,5 +129,6 @@ void rescale_all_images()
 }
 
 int main(){
-    rescale_all_images(); 
+    rescale_all_images(path); 
+    rescale_all_images("../../DataChallenge/train_individuals_test/"); 
 }
