@@ -24,13 +24,14 @@ def read_in():
     list_images_out = []
     index = 0
     current_image_points = []
-    with open("./darknet/output_global.txt") as results:
+    with open("./darknet/output.txt") as results:
         lines = results.readlines()
         for line in lines:
             try:
-                i = int(line)
+                i = int(line[-(4+6+1):][:6]) # ex of file 000000.jpg 6 + 4 characters
                 if i != index:
                     print("PROBLEM")
+                    print(i, index)
                     exit()
                 if not current_image_points:
                     list_images_out.append(Image(index, 0, 0, 0, 0, 0))

@@ -167,5 +167,5 @@ def get_dataset_test(max_images=None):
     return test_files
 
 if __name__ == "__main__":
-    # export_data_test_tiff()
+    export_data_test_tiff()
     export_data_tiff_to_show()

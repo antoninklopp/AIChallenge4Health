@@ -15,13 +15,14 @@ file_test = open('test.txt', 'w')
 # Populate train.txt and test.txt
 counter = 1  
 index_test = round(100 / percentage_test)  
-for pathAndFilename in glob.iglob(os.path.join(current_dir, "*.jpg")):  
+for pathAndFilename in sorted(glob.iglob(os.path.join(current_dir, "*.jpg"))):  
     title, ext = os.path.splitext(os.path.basename(pathAndFilename))
+    file_train.write(current_dir_abs + title + '.jpg' + "\n")
 
-    if counter == index_test:
-        counter = 1
-        file_test.write(current_dir_abs + title + '.jpg' + "\n")
-    else:
-        file_train.write(current_dir_abs + title + '.jpg' + "\n")
-        counter = counter + 1
-        
+
+current_dir_abs = os.path.dirname(os.path.abspath(__file__))[:-3] + "DataChallenge/train_individuals_test/"
+current_dir = "DataChallenge/train_individuals_test/"
+    
+for pathAndFilename in sorted(glob.iglob(os.path.join(current_dir, "*.jpg"))):  
+    title, ext = os.path.splitext(os.path.basename(pathAndFilename))
+    file_test.write(current_dir_abs + title + '.jpg' + "\n")

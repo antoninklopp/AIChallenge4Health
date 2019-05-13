@@ -41,7 +41,7 @@ double findMinimum(Mat &img){
     return minimum;
 }
 
-void rescale_image(string pathImage, int imageNumber)
+void rescale_image(string pathImage, int imageNumber, string pathDirectory)
 {
     int RESIZE_FACTOR = 5;
     Mat img = imread(pathImage, IMREAD_GRAYSCALE);
@@ -96,7 +96,7 @@ void rescale_image(string pathImage, int imageNumber)
     Mat dest(rescaledSize, CV_8UC1);
     std::stringstream buffer;
     buffer << setfill('0') << setw(6) << imageNumber;
-    string destName = path + buffer.str();
+    string destName = pathDirectory + buffer.str();
     cv::resize(img, dest, rescaledSize, INTER_CUBIC);
     cv::imwrite(destName + ".jpg", dest);
 }
@@ -114,20 +114,21 @@ vector<string> globVector(const string &pattern)
     return files;
 }
 
-void rescale_all_images()
+void rescale_all_images(string pathDirectory)
 {
-    vector<string> files = globVector(path + "*.jpg");
-    cerr << path + "*.jpg" << endl; 
+    vector<string> files = globVector(pathDirectory + "*.jpg");
+    cerr << pathDirectory + "*.jpg" << endl; 
     int f = 0; 
     // #pragma omp for private(f)
     for (f = 0; f < files.size(); f++)
     {
         cerr << f << "\n"; 
-        rescale_image(files[f], f); 
+        rescale_image(files[f], f, pathDirectory); 
     }
 
 }
 
 int main(){
-    rescale_all_images(); 
+    rescale_all_images(path); 
+    rescale_all_images("../../DataChallenge/train_individuals_test/"); 
 }

@@ -33,7 +33,8 @@ To test :
 To train:
 ./darknet detector train cfg/obj.data cfg/tiny_yolo_perso.cfg
 
-
+To input multiple files : 
+./darknet detector test cfg/obj.data cfg/tiny_yolo_perso.cfg backup/tiny_yolo_perso_last.weights -dont_show -ext_output -thresh 0.5 < ../train.txt > result.txt
 
 ## Contribute
 
