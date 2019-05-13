@@ -54,7 +54,7 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
     # We will find each corner one at a time
     i = int(middle_spot[0] * RESIZE_FACTOR)
     right_side = -1
-    while (i < int((middle_spot[0] + RESIZE_FACTOR + 0.5) * RESIZE_FACTOR) and i < 24 * RESIZE_FACTOR):
+    while (i < int((middle_spot[0] + 4 + 0.5) * RESIZE_FACTOR) and i < 24 * RESIZE_FACTOR):
         if image[i, int(RESIZE_FACTOR * middle_spot[1])] > 255.0/2:
             right_side = i/(24.0 * RESIZE_FACTOR)
             break
@@ -66,7 +66,7 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
     # left side
     i = int(middle_spot[0] * RESIZE_FACTOR)
     left_side = -1
-    while (i > int((middle_spot[0] - RESIZE_FACTOR + 0.5) * RESIZE_FACTOR) and i > 0):
+    while (i > int((middle_spot[0] - 4 - 0.5) * RESIZE_FACTOR) and i > 0):
         if image[i, int(RESIZE_FACTOR * middle_spot[1])] > 255.0/2:
             left_side = i/(24.0 * RESIZE_FACTOR)
             break
@@ -78,8 +78,8 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
     # top side
     j = int(middle_spot[1] * RESIZE_FACTOR)
     top_side = -1
-    while (j > int((middle_spot[0] - RESIZE_FACTOR + 0.5) * RESIZE_FACTOR) and j > 0):
-        if image[int(RESIZE_FACTOR * middle_spot[1]), j] > 255.0/2:
+    while (j > int((middle_spot[1] - 4 - 0.5) * RESIZE_FACTOR) and j > 0):
+        if image[int(RESIZE_FACTOR * middle_spot[0]), j] > 255.0/2:
             top_side = j/(24.0 * RESIZE_FACTOR)
             break
         j -= 1
@@ -90,14 +90,14 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
     # bottom side
     j = int(middle_spot[1] * RESIZE_FACTOR)
     bottom_side = -1
-    while (j < int((middle_spot[0] + RESIZE_FACTOR + 0.5) * RESIZE_FACTOR) and j < 24 * RESIZE_FACTOR):
+    while (j < int((middle_spot[1] + 4 + 0.5) * RESIZE_FACTOR) and j < 24 * RESIZE_FACTOR):
         if image[int(RESIZE_FACTOR * middle_spot[0]), j] > 255.0/2:
             bottom_side = j/(24.0 * RESIZE_FACTOR)
             break
         j += 1
 
     if bottom_side == -1:
-        bottom_side = 0
+        bottom_side = 1
 
     return [0, left_side, top_side, right_side - left_side, bottom_side - top_side]
 
