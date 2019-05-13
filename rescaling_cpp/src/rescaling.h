@@ -17,7 +17,7 @@ void rescale_all_images();
 
 vector<string> globVector(const string &pattern); 
 
-void rescale_image(string path, int imageNumber); 
+void rescale_image(string path, int imageNumber, string pathDirectory); 
 
 uint8_t rescale_pixel(int x, int minimum, int maximum); 
 
