@@ -1,6 +1,7 @@
 from src.import_data import get_dataset, RESIZE_FACTOR, get_csv_training
 import math
 import cv2 
+import matplotlib.pyplot as plt
 
 def distance(spot1, spot2):
     return math.sqrt((spot1[0] - spot2[0])**2 + (spot1[1] - spot2[1])**2)
@@ -51,11 +52,14 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
     """
     Finds a more or less precise bouding box of a pixel
     """
+    canny = cv2.Canny(image, 50, 150)
+    #plt.imshow(canny)
+    #plt.show()
     # We will find each corner one at a time
-    i = int(middle_spot[0] * RESIZE_FACTOR)
+    i = int(middle_spot[0] * RESIZE_FACTOR)+ 2 * RESIZE_FACTOR
     right_side = -1
-    while (i < int((middle_spot[0] + 4 + 0.5) * RESIZE_FACTOR) and i < 24 * RESIZE_FACTOR):
-        if image[i, int(RESIZE_FACTOR * middle_spot[1])] > 255.0/2:
+    while i < 24 * RESIZE_FACTOR:
+        if canny[i, int(RESIZE_FACTOR * middle_spot[1])] > 50.0 or i > int((middle_spot[0] + 4) * RESIZE_FACTOR):
             right_side = i/(24.0 * RESIZE_FACTOR)
             break
         i += 1
@@ -64,10 +68,10 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
         right_side = 1
 
     # left side
-    i = int(middle_spot[0] * RESIZE_FACTOR)
+    i = int(middle_spot[0] * RESIZE_FACTOR)- 2 * RESIZE_FACTOR
     left_side = -1
-    while (i > int((middle_spot[0] - 4 - 0.5) * RESIZE_FACTOR) and i > 0):
-        if image[i, int(RESIZE_FACTOR * middle_spot[1])] > 255.0/2:
+    while i > 0:
+        if canny[i, int(RESIZE_FACTOR * middle_spot[1])] > 50.0 or i < int((middle_spot[0] - 4) * RESIZE_FACTOR):
             left_side = i/(24.0 * RESIZE_FACTOR)
             break
         i -= 1
@@ -76,10 +80,10 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
         left_side = 0
 
     # top side
-    j = int(middle_spot[1] * RESIZE_FACTOR)
+    j = int(middle_spot[1] * RESIZE_FACTOR) - 2 * RESIZE_FACTOR
     top_side = -1
-    while (j > int((middle_spot[1] - 4 - 0.5) * RESIZE_FACTOR) and j > 0):
-        if image[int(RESIZE_FACTOR * middle_spot[0]), j] > 255.0/2:
+    while j > 0:
+        if canny[int(RESIZE_FACTOR * middle_spot[0]), j] > 50.0 or j < int((middle_spot[1] - 4) * RESIZE_FACTOR):
             top_side = j/(24.0 * RESIZE_FACTOR)
             break
         j -= 1
@@ -88,10 +92,10 @@ def get_yolo_bouding_box(image, middle_spot, max=4*RESIZE_FACTOR):
         top_side = 0
 
     # bottom side
-    j = int(middle_spot[1] * RESIZE_FACTOR)
+    j = int(middle_spot[1] * RESIZE_FACTOR) + 2 * RESIZE_FACTOR
     bottom_side = -1
-    while (j < int((middle_spot[1] + 4 + 0.5) * RESIZE_FACTOR) and j < 24 * RESIZE_FACTOR):
-        if image[int(RESIZE_FACTOR * middle_spot[0]), j] > 255.0/2:
+    while j < 24 * RESIZE_FACTOR:
+        if canny[int(RESIZE_FACTOR * middle_spot[0]), j] > 50.0 or j > int((middle_spot[1] + 4) * RESIZE_FACTOR):
             bottom_side = j/(24.0 * RESIZE_FACTOR)
             break
         j += 1
