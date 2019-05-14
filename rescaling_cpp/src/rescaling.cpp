@@ -15,7 +15,7 @@ vector<int> histogram(Mat &img, int binSize)
 
 double rescale_pixel(double x, int minimum, int maximum)
 {
-    int newValue = (int)((float)(x - minimum) / (float)(maximum - minimum) * 255);
+    double newValue = (int)((float)(x - minimum) / (float)(maximum - minimum) * 255);
     if (newValue < 0)
     {
         newValue = 0;
@@ -24,7 +24,7 @@ double rescale_pixel(double x, int minimum, int maximum)
     {
         newValue = 255;
     }
-    return (double)newValue;
+    return newValue;
 }
 
 double findMinimum(Mat &img){
@@ -91,13 +91,14 @@ void rescale_image(string pathImage, int imageNumber, string pathDirectory)
 
     cerr << "minimum " << minimum << " maxmimum " << maximum << endl; 
     assert (findMinimum(img) < 1); 
+    assert (findMinimum(img) >= 0); 
 
     Size rescaledSize(img.rows * RESIZE_FACTOR, img.cols * RESIZE_FACTOR);
     Mat dest(rescaledSize, CV_8UC1);
     std::stringstream buffer;
     buffer << setfill('0') << setw(6) << imageNumber;
     string destName = pathDirectory + buffer.str();
-    cv::resize(img, dest, rescaledSize, INTER_CUBIC);
+    cv::resize(img, dest, rescaledSize, INTER_LINEAR);
     cv::imwrite(destName + ".jpg", dest);
 }
 

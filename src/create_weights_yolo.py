@@ -20,29 +20,29 @@ def get_yolo_config():
         if l.classification == 0:
             continue
         elif l.classification == 1:
-            size_spot_X = 8.0
-            if l.X_first_spot < 4.0 or l.X_first_spot > 24 - 4.0:
-                size_spot_X = min(l.X_first_spot, 24-l.X_first_spot)
-            size_spot_Y = 8.0
-            if l.Y_first_spot < 4.0 or l.Y_first_spot > 24 - 4.0:
-                size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot)
+            size_spot_X = 9.0
+            if l.X_first_spot < 4.5 or l.X_first_spot > 24 - 4.5:
+                size_spot_X = min(l.X_first_spot, 24-l.X_first_spot) * 2
+            size_spot_Y = 9.0
+            if l.Y_first_spot < 4.5 or l.Y_first_spot > 24 - 4.5:
+                size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot) * 2
             info = " ".join([str(i) for i in get_yolo_bouding_box(d, l.first_spot())])
             file_yolo.write(info)
         else:
-            size_spot_X = 8.0
-            if l.X_first_spot < 4.0 or l.X_first_spot > 24 - 4.0:
+            size_spot_X = 9.0
+            if l.X_first_spot < 4.5 or l.X_first_spot > 24 - 4.5:
                 size_spot_X = min(l.X_first_spot, 24-l.X_first_spot) * 2
-            size_spot_Y = 8.0
-            if l.Y_first_spot < 4.0 or l.Y_first_spot > 24 - 4.0:
+            size_spot_Y = 9.0
+            if l.Y_first_spot < 4.5 or l.Y_first_spot > 24 - 4.5:
                 size_spot_Y = min(l.Y_first_spot, 24-l.Y_first_spot) * 2
             info = " ".join([str(i) for i in get_yolo_bouding_box(d, l.first_spot())])
             file_yolo.write(info)
             file_yolo.write("\n")
-            size_spot_X = 8.0
-            if l.X_second_spot < 4.0 or l.X_second_spot > 24 - 4.0:
+            size_spot_X = 9.0
+            if l.X_second_spot < 4.5 or l.X_second_spot > 24 - 4.5:
                 size_spot_X = min(l.X_second_spot, 24-l.X_second_spot) * 2
-            size_spot_Y = 8.0
-            if l.Y_second_spot < 4.0 or l.Y_second_spot > 24 - 4.0:
+            size_spot_Y = 9.0
+            if l.Y_second_spot < 4.5 or l.Y_second_spot > 24 - 4.5:
                 size_spot_Y = min(l.Y_second_spot, 24-l.Y_second_spot) * 2
             info = " ".join([str(i) for i in get_yolo_bouding_box(d, l.second_spot())])
             file_yolo.write(info)

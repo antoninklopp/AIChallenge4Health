@@ -14,9 +14,10 @@ def visualize_points_one_image(f, l, index):
     boudaries = 4 * RESIZE_FACTOR
     boxes = open("DataChallenge/train_individuals/" + str(index).zfill(6) + ".txt")
     l = boxes.readline().split(" ")
-    left_bottom_corner = (int(float(l[1]) * 24 * RESIZE_FACTOR), int(float(l[2]) * 24 * RESIZE_FACTOR))
-    right_top_corner = (int(float(l[3]) * 24 * RESIZE_FACTOR) + int(float(l[1]) * 24 * RESIZE_FACTOR)\
-        , int(float(l[4]) * 24 * RESIZE_FACTOR) + int(float(l[2]) * 24 * RESIZE_FACTOR))
+    left_bottom_corner = (int(float(l[1]) * 24 * RESIZE_FACTOR) - int(float(l[3]) * 24 * RESIZE_FACTOR/2)\
+        , int(float(l[2]) * 24 * RESIZE_FACTOR) - int(float(l[4]) * 24 * RESIZE_FACTOR/2))
+    right_top_corner = (int(float(l[1]) * 24 * RESIZE_FACTOR) + int(float(l[3]) * 24 * RESIZE_FACTOR/2)\
+        , int(float(l[2]) * 24 * RESIZE_FACTOR) + int(float(l[4]) * 24 * RESIZE_FACTOR/2))
     left_bottom_middle = 0
     right_top_middle = 0
     print(left_bottom_corner, right_top_corner)
