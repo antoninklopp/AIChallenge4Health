@@ -9,6 +9,21 @@
 
 You can find all the informations here : https://competitions.codalab.org/competitions/21639#learn_the_details-overview
 
+## Output
+
+The center of the spots are represented by small white points : 
+
+No spots :   
+<img src="output_test/test_image57.jpg" width="100">
+
+One spot :  
+<img src="output_test/test_image0.jpg" width="100">
+<img src="output_test/test_image1.jpg" width="100">  
+
+Two spots :  
+<img src="output_test/test_image88.jpg" width="100">
+<img src="output_test/test_image89.jpg" width="100">
+
 ## Run and test
 
 ```console
@@ -18,23 +33,12 @@ me@machine:~$ python3 setup.py test # To test all unit tests
 me@machine:~$ python3 tests/__test_test_you_want.py
 ```
 
-## Use tensorflow-gpu and verify it is working
-
-```python
-import tensorflow as tf
-tf.test.is_gpu_available()
-```
-
 ## Instructions for YOLO
 
-To test : 
-./darknet detector test cfg/obj.data cfg/tiny_yolo_perso.cfg backup/tiny_yolo_perso_last.weights ../AIChallenge4Health/DataChallenge/train_individuals/000017.jpg -thresh 0.97
-
-To train:
-./darknet detector train cfg/obj.data cfg/tiny_yolo_perso.cfg
-
-To input multiple files : 
-./darknet detector test cfg/obj.data cfg/tiny_yolo_perso.cfg backup/tiny_yolo_perso_last.weights -dont_show -ext_output -thresh 0.5 < ../train.txt > result.txt
+```console
+me@machine:~$ ./train.sh # to train
+me@machine:~$ ./test.sh # to test
+```
 
 ## Contribute
 
