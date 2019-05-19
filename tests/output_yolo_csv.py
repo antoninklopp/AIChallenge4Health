@@ -5,6 +5,7 @@ from src.calculate_metrics import calculate_metric_classification, calculate_met
 import numpy as np
 from src.image import Image
 from src.read_results_yolo import read_in
+import csv
 
 def output():
     """
@@ -15,9 +16,9 @@ def output():
     for image in images_yolo:
         images_str.append(image.to_csv())
         
-    with open("output/answers_" + str(self.__class__.__name__) + ".csv", 'w') as answers:
+    with open("output/answers_yolo" + ".csv", 'w') as answers:
         write_answers = csv.writer(answers)
-        write_answers.writerows(answers_model)
+        write_answers.writerows(images_str)
     
 
 if __name__ == "__main__":

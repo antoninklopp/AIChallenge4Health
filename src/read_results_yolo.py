@@ -34,7 +34,7 @@ def read_in():
                     print(i, index)
                     exit()
                 if not current_image_points:
-                    list_images_out.append(Image(index, 0, 0, 0, 0, 0))
+                    list_images_out.append(Image(index - 1, 0, 0, 0, 0, 0))
                 elif len(current_image_points) == 1:
                     if is_spot_possible(current_image_points[0][1]/float(RESIZE_FACTOR), \
                         current_image_points[0][2]/float(RESIZE_FACTOR), \
@@ -42,9 +42,9 @@ def read_in():
                         current_image_points[0][4]/float(RESIZE_FACTOR)):
                         spot = ((current_image_points[0][1] + current_image_points[0][2])/float(2 * RESIZE_FACTOR), \
                             (current_image_points[0][3] + current_image_points[0][4])/float(2 * RESIZE_FACTOR))
-                        list_images_out.append(Image(index, 1, spot[0], spot[1], 0, 0))
+                        list_images_out.append(Image(index - 1, 1, spot[0], spot[1], 0, 0))
                     else:
-                        list_images_out.append(Image(index, 0, 0, 0, 0, 0))
+                        list_images_out.append(Image(index - 1, 0, 0, 0, 0, 0))
                 else:
                     # Reverse sort the mostr likely images
                     current_image_points.sort(key=lambda x: -x[0])
@@ -64,11 +64,11 @@ def read_in():
                             (current_image_points[1][3] + current_image_points[1][4])/float(2 * RESIZE_FACTOR))
                         spots.append(spot2)
                     if len(spots) == 0:
-                        list_images_out.append(Image(index, 0, 0, 0, 0, 0))
+                        list_images_out.append(Image(index - 1, 0, 0, 0, 0, 0))
                     elif len(spots) == 1:
-                        list_images_out.append(Image(index, 1, spots[0][0], spots[0][1], 0, 0))
+                        list_images_out.append(Image(index - 1, 1, spots[0][0], spots[0][1], 0, 0))
                     else:
-                        list_images_out.append(Image(index, 2, spot1[0], spot1[1], spot2[0], spot2[1]))
+                        list_images_out.append(Image(index - 1, 2, spot1[0], spot1[1], spot2[0], spot2[1]))
 
                 # Reset the current image
                 current_image_points = []
@@ -79,6 +79,7 @@ def read_in():
                 left, right, top, bottom = int(left), int(right), int(top), int(bottom)
                 current_image_points.append([0, left, right, bottom, top])
 
+    # We remove the first image due to line 36 test
     list_images_out.pop(0)
     return list_images_out
 
