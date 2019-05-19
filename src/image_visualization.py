@@ -1,6 +1,7 @@
-from src.import_data import get_dataset, RESIZE_FACTOR
+from src.import_data import get_dataset, RESIZE_FACTOR, get_data_test
 import cv2
-from image import Image
+from src.image import Image
+from src.read_results_yolo import read_in
 
 def visualize_points_images():
     features, labels = get_dataset(1000)
@@ -25,5 +26,25 @@ def visualize_points_one_image(f, l, index):
     # cv2.rectangle(f, left_bottom_middle, right_top_middle, (255, 0, 0), 2)
     return f
 
+def visualize_results_image():
+    """
+    Visualize the results from the test dataset
+    """
+    IMAGES = 100
+    results = read_in()
+    test_files = get_data_test()
+    for i in range(IMAGES):
+        im = test_files[i]
+        r = results[i]
+        if r.classification == 1:
+            middle = (int(float(r.X_first_spot)), int(float(r.Y_first_spot)))
+            im[middle[1], middle[0]] = [255, 255, 255]
+        elif r.classification == 2:
+            middle = (int(float(r.X_first_spot)), int(float(r.Y_first_spot)))
+            im[middle[1], middle[0]] = [255, 255, 255]
+            middle2 = (int(float(r.X_second_spot)), int(float(r.Y_second_spot)))
+            im[middle2[1], middle2[0]] = [255, 255, 255]
+        cv2.imwrite("output_vis/test_image" + str(i) + ".jpg", im[:, :, 0])
+
 if __name__ == "__main__":
-    visualize_points_images()
+    visualize_results_image()

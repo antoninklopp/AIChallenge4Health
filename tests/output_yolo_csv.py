@@ -15,6 +15,9 @@ def output():
     images_str = []
     for image in images_yolo:
         images_str.append(image.to_csv())
+
+    for i in images_str:
+        assert (len(i) == 6)
         
     with open("output/answers_yolo" + ".csv", 'w') as answers:
         write_answers = csv.writer(answers)
